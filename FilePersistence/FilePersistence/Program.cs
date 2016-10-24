@@ -161,7 +161,7 @@ namespace FilePersistence
             foreach (BakeryMenu item in items)
             {
                 view.WriteAt(gridX + 1, gridY + 1 * i, item.Flavor);
-                view.WriteAt(gridX + gridCellWidth + 2, gridY + 1 * i, $"{item.Flavor}");
+                view.WriteAt(gridX + gridCellWidth + 2, gridY + 1 * i, $"{item.Price}");
                 i += 2;
             }
 

@@ -50,11 +50,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\FilePersistence.exe.config" />
+    <None Include="bin\Debug\FilePersistence.vshost.exe.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\Debug\Data\" />
     <Folder Include="Controller\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\FilePersistence.exe" />
+    <Content Include="bin\Debug\FilePersistence.pdb" />
+    <Content Include="bin\Debug\FilePersistence.vshost.exe" />
     <Content Include="Data\DataFile.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
