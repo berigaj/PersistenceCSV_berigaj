@@ -22,6 +22,8 @@ namespace FilePersistence
         private static void Main(string[] args)
         {
             string textFilePath = "Data\\DataFile.txt";
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.White;
 
             InitializeBakeryMenu(textFilePath);
 
@@ -157,6 +159,7 @@ namespace FilePersistence
             view.DrawGrid(gridX, gridY, gridRowNum, gridColNum, gridCellWidth, gridCellHeight);
 
             //-------------------
+
             int i = 1;
             foreach (BakeryMenu item in items)
             {
@@ -165,8 +168,12 @@ namespace FilePersistence
                 i += 2;
             }
 
+            Console.WriteLine("\n\n Press Any Key To Continue.");
             Console.ReadKey(true);
-            Console.BufferHeight = 40;
+
+            
+            Console.BufferHeight = 60;
+
         }
 
         /// <summary>

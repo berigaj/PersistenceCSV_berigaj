@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FilePersistence.View
 {
-
+   
     public class ConsoleMenu
     {
         #region FIELD
@@ -73,7 +73,7 @@ namespace FilePersistence.View
             Console.WindowWidth = _WIDTH;
             Console.WindowHeight = _HEIGHT;
             Console.BufferWidth = _WIDTH;
-            Console.BufferHeight = _HEIGHT;
+            Console.BufferHeight = _HEIGHT;        
         }
 
         #endregion
