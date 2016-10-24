@@ -1,50 +1,32 @@
-﻿0,Chocolate,Cake,8.95
-1,Lemon,Cake,8.95
-2,Casino,Cake,15.95
-3,Opera,Cake,15.95
-4,Strawberry,Cake,11.95
-5,Truffle,Cake,15.95
-6,Chocolate,Eclair,3.25
-7,Coffee,Eclair,3.50
-8,Vanilla,Eclair,3.25
-9,Napoleon,Cake,13.49
-10,Almond,Tart,3.75
-11,Apple,Pie,5.25
-12,Apple,Tart,3.25
-13,Apricot,Tart,3.25
-14,Berry,Tart,3.25
-15,Blackberry,Tart,3.25
-16,Blueberry,Tart,3.25
-17,Chocolate,Tart,3.75
-18,Cherry,Tart,3.25
-19,Lemon,Tart,3.25
-20,Pecan,Tart,3.75
-21,Ganache,Cookie,1.15
-22,Gongolais,Cookie,1.15
-23,Raspberry,Cookie,1.09
-24,Lemon,Cookie,0.79
-25,Chocolate,Meringue,1.25
-26,Vanilla,Meringue,1.15
-27,Marzipan,Cookie,1.25
-28,Tuile,Cookie,1.25
-29,Walnut,Cookie,0.79
-30,Almond,Croissant,1.45
-31,Apple,Croissant,1.45
-32,Apricot,Croissant,1.45
-33,Cheese,Croissant,1.75
-34,Chocolate,Croissant,1.75
-35,Apricot,Danish,1.15
-36,Apple,Danish,1.15
-37,Almond,Twist,1.15
-38,Almond,Bear Claw,1.95
-39,Blueberry,Danish,1.15
-40,Lemon,Lemonade,3.25
-41,Raspberry,Lemonade,3.25
-42,Orange,Juice,2.75
-43,Green,Tea,1.85
-44,Bottled,Water,1.80
-45,Hot,Coffee,2.15
-46,Chocolate,Coffee,2.45
-47,Vanilla,Frappuccino,3.85
-48,Cherry,Soda,1.29
-49,Single,Espresso,1.85
+﻿Chocolate Cake,8.95
+Lemon Cake,8.95
+Casino Cake,15.95
+Opera Cake,15.95
+Strawberry Cake,11.95
+Truffle Cake,15.95
+Chocolate Eclair,3.25
+Coffee Eclair,3.50
+Vanilla Eclair,3.25
+Napoleon Cake,13.49
+Almond Tart,3.75
+Apple Pie,5.25
+Apple Tart,3.25
+Apricot Tart,3.25
+Berry Tart,3.25
+Blackberry Tart,3.25
+Blueberry Tart,3.25
+Chocolate Tart,3.75
+Cherry Tart,3.25
+Lemon Tart,3.25
+Pecan Tart,3.75
+Ganache Cookie,1.15
+Gongolais Cookie,1.15
+Raspberry Cookie,1.09
+Lemon Cookie,0.79
+Chocolate Meringue,1.25
+Vanilla Meringue,1.15
+Marzipan Cookie,1.25
+Tuile Cookie,1.25
+Walnut Cookie,0.79
+Almond Croissant,1.45
+Apple Croissant,1.45

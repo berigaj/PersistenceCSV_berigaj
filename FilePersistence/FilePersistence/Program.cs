@@ -22,6 +22,7 @@ namespace FilePersistence
         private static void Main(string[] args)
         {
             string textFilePath = "Data\\DataFile.txt";
+
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -41,14 +42,14 @@ namespace FilePersistence
         }
 
         /// <summary>
-        /// Initialize the date file
+        /// Initialize the data file
         /// </summary>
         /// <param name="textFilePath"></param>
         static void InitializeBakeryMenu(string textFilePath)
         {
             List<BakeryMenu> bakeryMenuClassList = new List<BakeryMenu>();
-
-            // initialize the IList of high scores - note: no instantiation for an interface
+           
+            // initialize the IList of menu items - note: no instantiation for an interface
             bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Chocolate Cake", Price = 8.95 });
             bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Lemon Cake", Price = 7.95 });
             bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Chocolate Eclair", Price = 2.35 });
