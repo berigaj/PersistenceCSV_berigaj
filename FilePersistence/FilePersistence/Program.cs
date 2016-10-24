@@ -6,50 +6,53 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FilePersistence.View;
 
 namespace FilePersistence
 {
     class Program
     {
-        static void Main(string[] args)
+        //view for program
+        static ConsoleMenu view = new ConsoleMenu(120, 40);
+
+        /// <summary>
+        /// Main function
+        /// </summary>
+        /// <param name="args"></param>
+        private static void Main(string[] args)
         {
             string textFilePath = "Data\\DataFile.txt";
 
             InitializeBakeryMenu(textFilePath);
 
+            List<BakeryMenu> items;
+
             while (true)
             {
-                DisplayMenu(textFilePath);
+                // update menu list
+                items = ReadMenuItemsFromTextFile(textFilePath);
+
+                // dispaly menu
+                DisplayMenu(textFilePath, items);
             }
-            
+
         }
 
         /// <summary>
-        /// Initialize the data file
+        /// Initialize the date file
         /// </summary>
-        /// <param name="textfilePath"></param>
-        static void InitializeBakeryMenu(string textfilePath)
+        /// <param name="textFilePath"></param>
+        static void InitializeBakeryMenu(string textFilePath)
         {
-            List<BakeryMenu> BakeryMenuClassList = new List<BakeryMenu>();
+            List<BakeryMenu> bakeryMenuClassList = new List<BakeryMenu>();
 
-            BakeryMenuClassList.Add(new BakeryMenu() {Flavor = "Chocolate", Category = "Cake", Price = 8.95, Type="Food"});
+            // initialize the IList of high scores - note: no instantiation for an interface
+            bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Chocolate Cake", Price = 8.95 });
+            bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Lemon Cake", Price = 7.95 });
+            bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Chocolate Eclair", Price = 2.35 });
+            bakeryMenuClassList.Add(new BakeryMenu() { Flavor = "Cherry Tart", Price = 9.45 });
 
-            WriteMenuItemsToTextFile(BakeryMenuClassList, textFilePath);
-        }
-        /// <summary>
-        /// Display All List Items
-        /// </summary>
-        /// <param name="BakeryMenuClassList"></param>
-        static void DisplayMenuItems(List<BakeryMenu> BakeryMenuClassList)
-        {
-
-            foreach (BakeryMenu flavor in BakeryMenuClassList)
-            {
-                Console.WriteLine("{0} \t {1}\t {2}\t {3}");
-            }
-
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey(true);
+            WriteMenuItemsToTextFile(bakeryMenuClassList, textFilePath);
         }
 
         /// <summary>
@@ -57,16 +60,16 @@ namespace FilePersistence
         /// </summary>
         /// <param name="BakeryMenuClassList"></param>
         /// <param name="dataFile"></param>
-        static void WriteMenuItemsToTextFile(List<BakeryMenu> BakeryMenuClassList, string dataFile)
+        static void WriteMenuItemsToTextFile(List<BakeryMenu> bakeryMenuClassList, string dataFile)
         {
             string menuItemString;
 
             List<string> menuItemsStringListWrite = new List<string>();
 
             // build list to write to the text file
-            foreach (var flavor in BakeryMenuClassList)
+            foreach (var item in bakeryMenuClassList)
             {
-                menuItemString = flavor.Flavor + "," + flavor.Category + "," + flavor.Price + "," + flavor.Type;
+                menuItemString = item.Flavor + "," + item.Price;
                 menuItemsStringListWrite.Add(menuItemString);
             }
 
@@ -79,7 +82,7 @@ namespace FilePersistence
 
             List<string> menuItemsStringList = new List<string>();
 
-            List<BakeryMenu> BakeryMenuClassList = new List<BakeryMenu>();
+            List<BakeryMenu> bakeryMenuClassList = new List<BakeryMenu>();
 
             try
             {
@@ -95,37 +98,36 @@ namespace FilePersistence
                 //use split method to separate each item with delineator
                 string[] details = menuItemString.Split(delineator);
 
-                BakeryMenuClassList.Add(new BakeryMenu() { Flavor = details[0], Category = details[1], });
+                bakeryMenuClassList.Add(new BakeryMenu() { Flavor = details[0], Price = Convert.ToDouble(details[1]) });
             }
 
-            return BakeryMenuClassList;
+            return bakeryMenuClassList;
         }
 
         /// <summary>
         /// Displays the main menu
         /// </summary>
         /// <param name="path"></param>
-        static void DisplayMenu(string path)
+        static void DisplayMenu(string path, List<BakeryMenu> items)
         {
-            ConsoleMenu view = new ConsoleMenu(120, 40);
-
             //display menu
-            view.DrawMenu(28, 15, new List<string>() { "1. Display All Menu Items", "2. Add An Item", "3. Delete An Item", "4. Update An Item", "5. Delete Entire Menu", "6. Exit" });
+            view.DrawMenu(28, 15, new List<string>()
+            { "1. Display All Menu Items", "2. Add An Item", "3. Delete An Item", "4. Update An Item", "5. Delete Entire Menu", "6. Exit" });
 
             //get user choice
             switch (view.PromptKey())
             {
                 case ConsoleKey.D1:
-                    DisplayAllRecords(path);
+                    DisplayAllRecords(path, items);
                     break;
                 case ConsoleKey.D2:
-                    AddRecord(path, view);
+                    AddRecord(path, items);
                     break;
                 case ConsoleKey.D3:
-                    DeleteRecord(path, view);
+                    DeleteRecord(path, items);
                     break;
                 case ConsoleKey.D4:
-                    UpdateRecord(path, view);
+                    UpdateRecord(path, items);
                     break;
                 case ConsoleKey.D5:
                     WriteMenuItemsToTextFile(new List<BakeryMenu>(), path);
@@ -138,56 +140,70 @@ namespace FilePersistence
             }
         }
 
-        /// <summary>
-        /// Displays the data
-        /// </summary>
-        /// <param name="path"></param>
-        static void DisplayAllRecords(string path)
+        static void DisplayAllRecords(string path, List<BakeryMenu> items)
         {
-            //open file
-            List<BakeryMenu> Items = ReadMenuItemsFromTextFile(path);
-
             Console.Clear();
 
-            DisplayMenuItems(Items);
+            if (items.Count >= 18) Console.BufferHeight *= 2;
+
+            //-------------------
+            int gridRowNum = items.Count;
+            int gridColNum = 2;
+            int gridCellWidth = 20;
+            int gridCellHeight = 1;
+            int gridX = 120 / 2 - ((gridColNum * gridCellWidth) + gridColNum + 1) / 2;
+            int gridY = 3;
+
+            view.DrawGrid(gridX, gridY, gridRowNum, gridColNum, gridCellWidth, gridCellHeight);
+
+            //-------------------
+            int i = 1;
+            foreach (BakeryMenu item in items)
+            {
+                view.WriteAt(gridX + 1, gridY + 1 * i, item.Flavor);
+                view.WriteAt(gridX + gridCellWidth + 2, gridY + 1 * i, $"{item.Flavor}");
+                i += 2;
+            }
+
+            Console.ReadKey(true);
+            Console.BufferHeight = 40;
         }
 
         /// <summary>
         /// Adds record the list
         /// </summary>
         /// <param name="path"></param>
-        static void AddRecord(string path, ConsoleMenu view)
+        static void AddRecord(string path, List<BakeryMenu> items)
         {
             double addPrice;
-            bool itemFound = false;
-
-            //open file
-            List<BakeryMenu> items = ReadMenuItemsFromTextFile(path);
 
             //prompt user to add a new Flavor
-            view.DrawPromptBox("Enter New Flavor: ");
+            view.DrawPromptBox("Enter New Item: ");
             string addFlavor = Console.ReadLine();
 
-            //prompt user to choose a category
-            view.DrawPromptBox("Enter Category: ");
-            string addCategory = Console.ReadLine();
+            //do update instead of add for new item
+            foreach (BakeryMenu item in items)
+            {
+                if (item.Flavor.ToLower() == addFlavor.ToLower())
+                {
+                    UpdateRecord(path, items, true, item.Flavor);
+                    return;
+                }
+            }
 
-            //prompt user to choose a type
-            view.DrawPromptBox("Enter a Type: ");
-            string addType = Console.ReadLine();
-
-            //prompt user to enter a price
             view.DrawPromptBox("What is the Item's price?: ");
             string response = Console.ReadLine();
 
             if (double.TryParse(response, out addPrice)) // Try to parse the string as an integer
             {
-                items.Add(new BakeryMenu(addFlavor, addCategory, addPrice, addType));
+                items.Add(new BakeryMenu(addFlavor, addPrice));
             }
             else
             {
                 Console.WriteLine("Not a valid price!");
             }
+
+            WriteMenuItemsToTextFile(items, path);
 
         }
 
@@ -196,11 +212,8 @@ namespace FilePersistence
         /// </summary>
         /// <param name="path"></param>
         /// <param name="view"></param>
-        static void DeleteRecord(string path, ConsoleMenu view)
+        static void DeleteRecord(string path, List<BakeryMenu> items)
         {
-            //read file
-            List<BakeryMenu> items = ReadMenuItemsFromTextFile(path);
-
             //prompt user to delete an item
             view.DrawPromptBox("Which item to delete?");
             string response = Console.ReadLine();
@@ -213,39 +226,50 @@ namespace FilePersistence
         }
 
         /// <summary>
-        /// Updates data from the file
+        /// Updates an item
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="view"></param>
-        static void UpdateRecord(string path, ConsoleMenu view)
+        /// <param name="path">file path</param>
+        /// <param name="view">view</param>
+        /// <param name="items">list of highscores</param>
+        /// <param name="alreadyFound">is this coming from add highscore?</param>
+        /// <param name="name">name of player already found</param>
+        static void UpdateRecord(string path, List<BakeryMenu> items, bool alreadyFound = false, string name = "")
         {
-            int newItem;
+            double newPrice;
             bool itemFound = false;
+            string response;
 
-            //read file
-            List<BakeryMenu> items = ReadMenuItemsFromTextFile(path);
-
-            //prompt user to update a menu item
-            view.DrawPromptBox("Which Item would you like to update?");
-            string response = Console.ReadLine();
-
-            foreach (BakeryMenu item in items)
+            //handle if item was found in AddItem
+            if (alreadyFound)
             {
-                if (item.ID == response)
-                    itemFound = true;
+                itemFound = true;
+                response = name;
+            }
+            else
+            {
+                //prompt user to update a price
+                view.DrawPromptBox("Which Item's price to update?");
+                response = Console.ReadLine();
+
+                foreach (BakeryMenu item in items)
+                {
+                    if (item.Flavor == response)
+                        itemFound = true;
+                }
             }
 
+            //menu item found
             if (itemFound)
             {
-                string score;
+                string price;
 
                 view.DrawPromptBox("Enter new price:");
-                score = Console.ReadLine();
+                price = Console.ReadLine();
 
-                while (!Int32.TryParse(score, out newPrice))
+                while (!double.TryParse(price, out newPrice))
                 {
                     view.DrawPromptBox("Enter a valid price:");
-                    score = Console.ReadLine();
+                    price = Console.ReadLine();
                 }
 
             }
@@ -253,15 +277,15 @@ namespace FilePersistence
             {
                 Console.Clear();
                 Console.CursorVisible = false;
-                view.DrawTextBox("No item found with that ID. Press any key to continue.");
+                view.DrawTextBox("No menu item found with that name. Press any key to continue.");
                 Console.ReadKey(true);
                 return;
             }
 
-            //update score
+            //update price
             foreach (BakeryMenu item in items)
             {
-                if (item.ID == response)
+                if (item.Flavor == response)
                 {
                     item.Price = newPrice;
                 }
@@ -269,6 +293,18 @@ namespace FilePersistence
 
             //update file
             WriteMenuItemsToTextFile(items, path);
+        }
+
+        /// <summary>
+        /// Delete all records in file
+        /// </summary>
+        static void DeleteAllRecords(string path)
+        {
+            view.DrawPromptBox("Delete all records? (yes / no): ");
+            string response = Console.ReadLine().ToUpper();
+
+            if (response == "YES")
+                WriteMenuItemsToTextFile(new List<BakeryMenu>(), path);
         }
     }
 }
