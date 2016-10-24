@@ -17,8 +17,6 @@ namespace FilePersistence.View
         private string _name;
         private int _WIDTH;
         private int _HEIGHT;
-        private ConsoleColor _foreColor;
-        private ConsoleColor _backColor;
 
         #endregion
 
@@ -42,18 +40,6 @@ namespace FilePersistence.View
             set { _HEIGHT = value; }
         }
 
-        public ConsoleColor ForegroundColor
-        {
-            get { return _foreColor; }
-            set { _foreColor = value; }
-        }
-
-        public ConsoleColor BackgroundColor
-        {
-            get { return _backColor; }
-            set { _backColor = value; }
-        }
-
         #endregion
 
         #region CONSTRUCTOR
@@ -61,9 +47,7 @@ namespace FilePersistence.View
         public ConsoleMenu()
         {
             Console.CursorVisible = false;
-            Console.ForegroundColor = ConsoleColor.White;
-            _foreColor = ConsoleColor.White;
-            _backColor = ConsoleColor.Black;
+            
         }
 
         public ConsoleMenu(int w, int h) : this()
@@ -79,23 +63,6 @@ namespace FilePersistence.View
         #endregion
 
         #region DRAW
-
-        /// <summary>
-        /// Draw a single character
-        /// </summary>
-        /// <param name="x">x position</param>
-        /// <param name="y">y position</param>
-        /// <param name="ct">char</param>
-        /// <param name="fColor"></param>
-        /// <param name="bColor"></param>
-        public void DrawChar(int x, int y, char ct, ConsoleColor fColor, ConsoleColor bColor)
-        {
-            ChangeColors(fColor, bColor);
-
-            WriteAt(x, y, ct);
-
-            ChangeColors(_foreColor, _backColor);
-        }
 
         /// <summary>
         /// Draw Lines
@@ -133,24 +100,6 @@ namespace FilePersistence.View
             DrawLine(x + 1, y + h, w, true, '═');
             DrawLine(x, y + 1, h, false, '║');
             DrawLine(x + w, y + 1, h, false, '║');
-        }
-
-        /// <summary>
-        /// Overload of DrawRectangle
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="fColor"></param>
-        /// <param name="bColor"></param>
-        public void DrawRectangle(int x, int y, int w, int h, ConsoleColor fColor, ConsoleColor bColor)
-        {
-            ChangeColors(fColor, bColor);
-
-            DrawRectangle(x, y, w, h);
-
-            ChangeColors(_foreColor, _backColor);
         }
 
         /// <summary>
@@ -231,25 +180,6 @@ namespace FilePersistence.View
 
             DrawRectangle(x, y, w, h);
             DrawMenu(x, y, w, h, menu);
-        }
-
-        /// <summary>
-        /// Overload of DrawMenu
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="fColor"></param>
-        /// <param name="bColor"></param>
-        /// <param name="menu"></param>
-        public void DrawMenu(int x, int y, int w, int h, ConsoleColor fColor, ConsoleColor bColor, List<string> menu)
-        {
-            ChangeColors(fColor, bColor);
-
-            DrawMenu(x, y, w, h, menu);
-
-            ChangeColors(_foreColor, _backColor);
         }
 
         /// <summary>
@@ -359,21 +289,6 @@ namespace FilePersistence.View
         {
             Console.SetCursorPosition(x, y);
             Console.Write(@s);
-        }
-
-        /// <summary>
-        /// Makes the first letter Upper, while making the other lower
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public string Title(string s)
-        {
-            s = s.ToLower();
-
-            char[] a = s.ToCharArray();
-            a[0] = char.ToUpper(a[0]);
-
-            return new string(a);
         }
 
         /// <summary>
